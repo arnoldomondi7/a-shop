@@ -13,6 +13,8 @@ const App = () => {
       <main className='py-3'>
         {/* prevents items from touching the sides of the browser */}
         <Container>
+          {/* Outlet is used in the parent route element to 
+        Render the child route elements  */}
           <Outlet />
         </Container>
       </main>
