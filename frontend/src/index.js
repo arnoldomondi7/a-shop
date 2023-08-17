@@ -10,6 +10,7 @@ import "./assets/styles/bootstrap.custom.css"
 import "./assets/styles/index.css"
 import App from "./App"
 import HomePage from "./pages/HomePage"
+import ProductPage from "./pages/ProductPage"
 
 //create the router.
 const router = createBrowserRouter(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       {/* here you create other routes */}
       {/* index prevent showing many pages */}
       <Route index={true} path='/' element={<HomePage />} />
+      <Route path='/product/:id' element={<ProductPage />} />
     </Route>
   )
 )
