@@ -1,20 +1,26 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 // used to get the id of the Product.
 import { Link, useParams } from "react-router-dom"
-import prods from "../prods"
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap"
 import RatingComp from "../components/RatingComp"
+import axios from "axios"
 const ProductPage = () => {
+  //store the single product in the state.
+  const [product, setProduct] = useState({})
+
   //destructure the id.
   //we rename to productID
   const { id: productId } = useParams()
 
-  const product = prods.find(prod => {
-    //find and return all products whose id are on the url and
-    //store it in the product variable.
-    return prod._id === productId
-  })
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${productId}`)
+      setProduct(data)
+    }
 
+    //call the function
+    fetchProduct()
+  }, [productId])
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>

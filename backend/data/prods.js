@@ -46,7 +46,7 @@ const prods = [
     name: "i-Phone 11 Pro 256GB Memory  ",
     image: "/images/phone.jpg",
     description:
-      "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working",
+      "Introducing the iPhone 13 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life",
     brand: "Apple",
     category: "Electronics",
     price: 599.99,

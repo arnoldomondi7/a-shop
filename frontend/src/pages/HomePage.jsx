@@ -1,12 +1,24 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Row, Col } from "react-bootstrap"
-import products from "../prods"
 import ProductComp from "../components/ProductComp"
+import axios from "axios"
 
 const HomePage = () => {
+  //save the products in a state.
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products")
+      //update the state with products.
+      setProducts(data)
+    }
+    //call the function.
+    fetchProducts()
+  }, [])
   const renderedItems = products.map(product => {
     return (
-      //the Row is used to devide the screen into 12 segments/pigments.
+      //the Row is used to divide the screen into 12 segments/pigments.
       //the Col is used to occupy the subdivided screens.
       //some might take a bigger or a smaller space.
       // basically its responsive.
