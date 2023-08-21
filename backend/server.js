@@ -1,12 +1,15 @@
 import express from "express"
 import dotenv from "dotenv"
 import prods from "./data/prods.js"
-
+import connectDB from "./config/db.js"
 //configure the system.
 dotenv.config()
+
 //create the port
 const port = process.env.PORT || 5000
 
+//connect to the database.
+connectDB()
 //initialise the express app.
 const app = express()
 
