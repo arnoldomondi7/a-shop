@@ -12,8 +12,11 @@ import App from "./App"
 import HomePage from "./pages/HomePage"
 import ProductPage from "./pages/ProductPage"
 
-//create the router.
+//declare the router.
+//createBrowserRouter==> enables us to access the react-router-dom
+//in the whole application.
 const router = createBrowserRouter(
+  //helps you weave the jsx elements together.
   createRoutesFromElements(
     // this is a parent and takes in the entire App.
     <Route path='/' element={<App />}>
