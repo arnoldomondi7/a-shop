@@ -1,7 +1,8 @@
 import express from "express"
 import dotenv from "dotenv"
-import prods from "./data/prods.js"
+import productRoute from "./routes/productRoute.js"
 import connectDB from "./config/db.js"
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
 //configure the system.
 dotenv.config()
 
@@ -17,19 +18,13 @@ const app = express()
 app.get("/", (req, res) => {
   res.send("API is running fine...")
 })
-//get the api products.
-app.get("/api/products/", (req, res) => {
-  res.json(prods)
-})
 
-//get a single product.
-app.get("/api/products/:id", (req, res) => {
-  const product = prods.find(prod => {
-    return prod._id === req.params.id
-  })
+//get the products.
+app.use("/api/products", productRoute)
 
-  res.json(product)
-})
+//use the error handlers.
+app.use(notFound)
+app.use(errorHandler)
 //start the server.
 app.listen(port, error => {
   //handle the error.
