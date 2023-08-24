@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Row, Col } from "react-bootstrap"
+import { useGetProductsQuery } from "../redux/slices/productApiSlice"
 import ProductComp from "../components/ProductComp"
-import axios from "axios"
+import LoaderComp from "../components/LoaderComp"
+import MessagesComp from "../components/MessagesComp"
 
 const HomePage = () => {
-  //save the products in a state.
-  const [products, setProducts] = useState([])
+  //the data we rename as products since thats what we are mapping.
+  const { data: products, isLoading, error } = useGetProductsQuery()
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get("/api/products")
-      //update the state with products.
-      setProducts(data)
-    }
-    //call the function.
-    fetchProducts()
-  }, [])
-  const renderedItems = products.map(product => {
+  const renderedItems = products?.map(product => {
     return (
       //the Row is used to divide the screen into 12 segments/pigments.
       //the Col is used to occupy the subdivided screens.
@@ -29,8 +22,20 @@ const HomePage = () => {
   })
   return (
     <>
-      <h1>Lattest Products.</h1>
-      <Row>{renderedItems}</Row>
+      {/* handle the loading and the error cases. */}
+      {isLoading ? (
+        <LoaderComp />
+      ) : error ? (
+        <MessagesComp variant='danger'>
+          {error?.data?.message || error?.error}
+        </MessagesComp>
+      ) : (
+        <>
+          {" "}
+          <h1>Lattest Products.</h1>
+          <Row>{renderedItems}</Row>
+        </>
+      )}
     </>
   )
 }

@@ -2,7 +2,7 @@ import React from "react"
 import { Navbar, Nav, Container } from "react-bootstrap"
 import { FaShoppingCart, FaUser } from "react-icons/fa"
 import { LinkContainer } from "react-router-bootstrap"
-import logo from "../assets/logo.png"
+import { VscActivateBreakpoints } from "react-icons/vsc"
 
 const HeaderComp = () => {
   return (
@@ -14,8 +14,9 @@ const HeaderComp = () => {
           {/* This represents the brand or the logo */}
           <LinkContainer to='/'>
             <Navbar.Brand>
-              <img src={logo} alt='imagelogo' />
-              a-shop
+              <p style={{ padding: "3px" }}>
+                <VscActivateBreakpoints size={29} /> a-shop
+              </p>
             </Navbar.Brand>
           </LinkContainer>
 

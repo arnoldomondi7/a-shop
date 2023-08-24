@@ -6,11 +6,13 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom"
-import "./assets/styles/bootstrap.custom.css"
-import "./assets/styles/index.css"
+import { Provider } from "react-redux"
+import store from "./redux/store"
 import App from "./App"
 import HomePage from "./pages/HomePage"
 import ProductPage from "./pages/ProductPage"
+import "./assets/styles/bootstrap.custom.css"
+import "./assets/styles/index.css"
 
 //declare the router.
 //createBrowserRouter==> enables us to access the react-router-dom
@@ -32,6 +34,8 @@ const el = document.querySelector("#root")
 const root = createRoot(el)
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 )
