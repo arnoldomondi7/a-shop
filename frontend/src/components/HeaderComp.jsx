@@ -1,10 +1,17 @@
 import React from "react"
-import { Navbar, Nav, Container } from "react-bootstrap"
+import { Badge, Navbar, Nav, Container } from "react-bootstrap"
 import { FaShoppingCart, FaUser } from "react-icons/fa"
 import { LinkContainer } from "react-router-bootstrap"
 import { VscActivateBreakpoints } from "react-icons/vsc"
+import { useSelector } from "react-redux"
 
 const HeaderComp = () => {
+  //get data from the state.
+  const { cartItems } = useSelector(state => {
+    //retruns the part of the state that you want.
+    return state.cart
+  })
+
   return (
     <header>
       {/* purpose of container is so the inner parts of the navbar 
@@ -29,6 +36,11 @@ const HeaderComp = () => {
               <LinkContainer to='/cart'>
                 <Nav.Link href='/cart'>
                   <FaShoppingCart /> Cart
+                  {cartItems.length > 0 && (
+                    <Badge pill bg='success' style={{ marginLeft: "5px" }}>
+                      {cartItems.reduce((acc, cur) => acc + cur.qty, 0)}
+                    </Badge>
+                  )}
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to='/login'>
