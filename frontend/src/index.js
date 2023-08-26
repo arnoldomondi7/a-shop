@@ -9,8 +9,11 @@ import {
 import { Provider } from "react-redux"
 import store from "./redux/store"
 import App from "./App"
+//pages
 import HomePage from "./pages/HomePage"
 import ProductPage from "./pages/ProductPage"
+import CartPage from "./pages/CartPage"
+//styles
 import "./assets/styles/bootstrap.custom.css"
 import "./assets/styles/index.css"
 
@@ -26,6 +29,7 @@ const router = createBrowserRouter(
       {/* index prevent showing many pages */}
       <Route index={true} path='/' element={<HomePage />} />
       <Route path='/product/:id' element={<ProductPage />} />
+      <Route path='/cart' element={<CartPage />} />
     </Route>
   )
 )
