@@ -1,6 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
 import productRoute from "./routes/productRoute.js"
+import userRoute from "./routes/userRoute.js"
 import connectDB from "./config/db.js"
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
 //configure the system.
@@ -14,13 +15,14 @@ connectDB()
 //initialise the express app.
 const app = express()
 
-//create a test route.
-app.get("/", (req, res) => {
-  res.send("API is running fine...")
-})
-
+//parse the json data.
+app.use(express.json())
+//parse the urlencoded data.
+app.use(express.urlencoded({ extended: true }))
 //get the products.
 app.use("/api/products", productRoute)
+//get the user route.
+app.use("/api/users", userRoute)
 
 //use the error handlers.
 app.use(notFound)

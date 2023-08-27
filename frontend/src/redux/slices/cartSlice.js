@@ -30,8 +30,8 @@ const cartSlice = createSlice({
       //update the quanitity if its there.
       //if not there just return the item as it is.
       if (existItem) {
-        state.existItem = state.existItem.map(product => {
-          return product._id === existItem._id ? item : product
+        state.cartItems = state.cartItems.map(x => {
+          return x._id === existItem._id ? item : x
         })
       } else {
         //we add the new item
@@ -41,10 +41,17 @@ const cartSlice = createSlice({
 
       return updateCart(state)
     },
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter(
+        item => item._id !== action.payload
+      )
+      //update the localStorage.
+      return updateCart(state)
+    },
   },
 })
 
 //export the cartSlice reducer.
 export default cartSlice.reducer
 //export the functions as actions.
-export const { addToCart } = cartSlice.actions
+export const { addToCart, removeFromCart } = cartSlice.actions
