@@ -1,5 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js"
 import User from "../models/userModel.js"
+import generateToken from "../utils/generateToken.js"
 
 // @desc->    Auth user & get token
 // @route->   POST /api/users/auth
@@ -30,24 +31,27 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
+  //get credentials from the db.
   const { name, email, password } = req.body
-
+  //check if the user already exists.
   const userExists = await User.findOne({ email })
-
+  //if so, log an error
   if (userExists) {
     res.status(400)
     throw new Error("User already exists")
   }
-
+  //if not create a user
   const user = await User.create({
     name,
     email,
     password,
   })
 
+  //check if there is  a user.
   if (user) {
+    //generate the token
     generateToken(res, user._id)
-
+    //send res to the user
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -55,6 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     })
   } else {
+    //log in error
     res.status(400)
     throw new Error("Invalid user data")
   }
@@ -64,9 +69,11 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/logout
 // @access  Public
 const logoutUser = (req, res) => {
+  //basically involves emptying the cookie.
+  //once ite empty we set the value to nothing hence ""
   res.cookie("jwt", "", {
     httpOnly: true,
-    expires: new Date(0),
+    expires: new Date(0), //expire as soon as this endpoint runs.
   })
   res.status(200).json({ message: "Logged out successfully" })
 }
@@ -75,8 +82,9 @@ const logoutUser = (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
+  //get the user's id from the database.
   const user = await User.findById(req.user._id)
-
+  //if there is a user send it back to the user requesting
   if (user) {
     res.json({
       _id: user._id,
@@ -94,16 +102,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
+  //get the users id.
   const user = await User.findById(req.user._id)
-
+  //update the users data if he/she is there
+  //|| mean only the updated one
   if (user) {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
-
+    //update the password
     if (req.body.password) {
       user.password = req.body.password
     }
-
+    //save the updated user
     const updatedUser = await user.save()
 
     res.json({

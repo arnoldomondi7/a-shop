@@ -17,14 +17,18 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 }
 
 // Encrypt password using bcrypt
+//pre-> before its saved in the db.
+//post -> happens after.
 userSchema.pre("save", async function (next) {
+  //if password has not been modified, go on to the next step.
   if (!this.isModified("password")) {
     next()
   }
-
+  //if so, hash the password.
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
 })
+
 const User = model("User", userSchema)
 
 export default User
