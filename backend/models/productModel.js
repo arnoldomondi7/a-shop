@@ -2,9 +2,10 @@ import mongoose from "mongoose"
 const { Schema, model } = mongoose
 
 //create the reviewSchema.
+//this will handle the review.
 const reviewSchema = new Schema(
   {
-    //create a relationship between a user and the products.
+    //create a relationship between a user and the reviews.
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     name: { type: String, required: true },
     rating: { type: Number, required: true },

@@ -9,6 +9,7 @@ const productRouter = express.Router()
 
 //get the api products.
 productRouter.route("/").get(getAllProducts)
+
 //get a single product.
 productRouter.route("/:id").get(getSingleProduct)
 

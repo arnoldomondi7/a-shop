@@ -3,6 +3,7 @@ const { Schema, model } = mongoose
 
 const orderSchema = new Schema(
   {
+    //connecting the user to the orders
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     orderItems: [
       {
@@ -10,6 +11,7 @@ const orderSchema = new Schema(
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        //connect the product to the item being ordered
         product: {
           type: Schema.Types.ObjectId,
           required: true,

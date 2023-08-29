@@ -1,7 +1,7 @@
 //import the product url constant.
 import { PRODUCT_URL } from "../constants"
 //get the apiSlice.
-import { apiSlice } from "./apiSlice"
+import { apiSlice } from "../api/apiSlice"
 
 //create the slice to get the products
 export const productApiSlice = apiSlice.injectEndpoints({
