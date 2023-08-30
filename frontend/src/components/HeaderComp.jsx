@@ -46,7 +46,6 @@ const HeaderComp = () => {
               <p style={{ padding: "3px" }}>
                 <VscActivateBreakpoints size={29} /> a-shop
               </p>
-              ProShop
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

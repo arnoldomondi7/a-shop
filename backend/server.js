@@ -1,8 +1,9 @@
 import express from "express"
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
-import productRoute from "./routes/productRoute.js"
-import userRoute from "./routes/userRoute.js"
+import productRoute from "./routes/productRoutes.js"
+import userRoute from "./routes/userRoutes.js"
+import orderRouter from "./routes/orderRoutes.js"
 import connectDB from "./config/db.js"
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js"
 
@@ -32,6 +33,9 @@ app.use("/api/products", productRoute)
 
 //get the user route.
 app.use("/api/users", userRoute)
+
+//get the order routes.
+app.use("/api/orders", orderRouter)
 
 //use the error handlers.
 app.use(notFound)

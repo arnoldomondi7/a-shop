@@ -7,19 +7,22 @@ import FormContainer from "../components/FormContainerComp"
 import CheackOutStepsComp from "../components/CheackOutStepsComp"
 
 const ShippingPage = () => {
-  const cart = useSelector(state => state.cart)
-  const { shippingAddress } = cart
-
-  const [address, setAddress] = useState(shippingAddress.address || "")
-  const [city, setCity] = useState(shippingAddress.city || "")
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || "")
-  const [country, setCountry] = useState(shippingAddress.country || "")
+  //get the shipping address from the cart
+  const { shippingAddress } = useSelector(state => state.cart)
+  //create the state to store therequired fields.
+  const [address, setAddress] = useState(shippingAddress?.address || "")
+  const [city, setCity] = useState(shippingAddress?.city || "")
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress?.postalCode || ""
+  )
+  const [country, setCountry] = useState(shippingAddress?.country || "")
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const submitHandler = event => {
     event.preventDefault()
+    //update the state and the localstorage
     dispatch(saveShippingAddress({ address, city, postalCode, country }))
     navigate("/payment")
   }
