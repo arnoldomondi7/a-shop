@@ -37,6 +37,13 @@ app.use("/api/users", userRoute)
 //get the order routes.
 app.use("/api/orders", orderRouter)
 
+//CREATE A PAYPAL ROUTE.
+app.get("/api/config/paypal", (req, res) => {
+  //we send the clients id.
+  //clientid is in the backend for security reasons.
+  return res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+})
+
 //use the error handlers.
 app.use(notFound)
 app.use(errorHandler)

@@ -63,7 +63,10 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
+  //find all the orders associated by a specific users ID.
+  //match the user to the user thats logged in.
   const orders = await Order.find({ user: req.user._id })
+  //send res to the users
   res.json(orders)
 })
 
@@ -71,14 +74,20 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
+  //populate used to add things that are not in that collection.
+  //i.e we want the user collection
+  //from it we want the name and the email.
   const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
   )
 
+  //check if that order actually exists.
   if (order) {
+    //if so, end it to the frontend
     res.json(order)
   } else {
+    // else send an error message
     res.status(404)
     throw new Error("Order not found")
   }
@@ -97,6 +106,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id)
   if (!isNewTransaction) throw new Error("Transaction has been used before")
 
+  //get the order
   const order = await Order.findById(req.params.id)
 
   if (order) {
