@@ -18,11 +18,18 @@ import RegisterPage from "./pages/RegisterPage"
 import ShippingPage from "./pages/ShippingPage"
 import PrivateRoute from "./components/PrivateRoute"
 import PaymentPage from "./pages/PaymentPage"
+import PlaceOrderPage from "./pages/PlaceOrderPage"
+import OrderPage from "./pages/OrderPage"
+import ProfilePage from "./pages/ProfilePage"
+import AdminRouteComp from "./components/AdminRouteComp"
+
 //styles
 import "./assets/styles/bootstrap.custom.css"
 import "./assets/styles/index.css"
-import PlaceOrderPage from "./pages/PlaceOrderPage"
-import OrderPage from "./pages/OrderPage"
+
+//paypal.
+import { PayPalScriptProvider } from "@paypal/react-paypal-js"
+import OrderListPage from "./pages/admin/OrderListPage"
 
 //declare the router.
 //createBrowserRouter==> enables us to access the react-router-dom
@@ -46,6 +53,12 @@ const router = createBrowserRouter(
         <Route path='/payment' element={<PaymentPage />} />
         <Route path='/placeorder' element={<PlaceOrderPage />} />
         <Route path='/order/:id' element={<OrderPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
+      </Route>
+
+      {/* Admin routes. */}
+      <Route path='' element={<AdminRouteComp />}>
+        <Route path='/admin/orderlist' element={<OrderListPage />} />
       </Route>
     </Route>
   )
@@ -56,7 +69,10 @@ const root = createRoot(el)
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <PayPalScriptProvider deferLoading={true}>
+        {" "}
+        <RouterProvider router={router} />
+      </PayPalScriptProvider>
     </Provider>
   </StrictMode>
 )

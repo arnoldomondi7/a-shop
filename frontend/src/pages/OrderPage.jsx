@@ -32,17 +32,22 @@ const OrderPage = () => {
 
   const { userInfo } = useSelector(state => state.auth)
 
+  //handle paypal payment processing.
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
-
+  //just re-naming the constants.
   const {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPaypalClientIdQuery()
 
+  //load the paypal script.
   useEffect(() => {
+    //its not loading or error but there is cientID
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+      //create a function to load the paypal script
       const loadPaypalScript = async () => {
+        //dispatch some instrictions(in the docs)
         paypalDispatch({
           type: "resetOptions",
           value: {
@@ -53,7 +58,9 @@ const OrderPage = () => {
         paypalDispatch({ type: "setLoadingStatus", value: "pending" })
       }
       if (order && !order.isPaid) {
+        //check if payment is yet to be made.
         if (!window.paypal) {
+          //load the script.
           loadPaypalScript()
         }
       }
@@ -61,9 +68,14 @@ const OrderPage = () => {
   }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch])
 
   function onApprove(data, actions) {
+    //found in the docs.
+    //returns a promise.
+    //this is what triggers paypal.
     return actions.order.capture().then(async function (details) {
       try {
+        //comming from the mutation ( slice)
         await payOrder({ orderId, details })
+        //so that is says paid once its done.
         refetch()
         toast.success("Order is paid")
       } catch (err) {
@@ -81,19 +93,22 @@ const OrderPage = () => {
   // }
 
   function onError(err) {
-    toast.error(err.message)
+    //show error
+    toast.error(err?.message)
   }
 
   function createOrder(data, actions) {
+    //from the docs.
     return actions.order
       .create({
         purchase_units: [
           {
-            amount: { value: order.totalPrice },
+            amount: { value: order?.totalPrice },
           },
         ],
       })
       .then(orderID => {
+        //return the order id.
         return orderID
       })
   }
@@ -143,6 +158,7 @@ const OrderPage = () => {
                 <strong>Method: </strong>
                 {order.paymentMethod}
               </p>
+
               {order.isPaid ? (
                 <MessagesComp variant='success'>
                   Paid on {order.paidAt}
@@ -215,6 +231,7 @@ const OrderPage = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {/* only show if its not payed */}
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <LoaderComp />}
