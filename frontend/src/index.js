@@ -21,6 +21,8 @@ import PaymentPage from "./pages/PaymentPage"
 //styles
 import "./assets/styles/bootstrap.custom.css"
 import "./assets/styles/index.css"
+import PlaceOrderPage from "./pages/PlaceOrderPage"
+import OrderPage from "./pages/OrderPage"
 
 //declare the router.
 //createBrowserRouter==> enables us to access the react-router-dom
@@ -42,6 +44,8 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute />}>
         <Route path='/shipping' element={<ShippingPage />} />
         <Route path='/payment' element={<PaymentPage />} />
+        <Route path='/placeorder' element={<PlaceOrderPage />} />
+        <Route path='/order/:id' element={<OrderPage />} />
       </Route>
     </Route>
   )
