@@ -7,6 +7,7 @@ import { FaTimes } from "react-icons/fa"
 import { LinkContainer } from "react-router-bootstrap"
 
 const OrderListPage = () => {
+  //get the items from redux.
   const { data: orders, isLoading, error } = useGetOrdersQuery()
 
   return (

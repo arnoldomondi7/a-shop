@@ -138,12 +138,15 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
 
+  //check if there is order there
   if (order) {
+    //if there change the state to true
     order.isDelivered = true
+    //update the deliveredAt time.
     order.deliveredAt = Date.now()
-
+    //put the updated order in a variable
     const updatedOrder = await order.save()
-
+    //send it to the frontend
     res.json(updatedOrder)
   } else {
     res.status(404)

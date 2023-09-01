@@ -113,7 +113,7 @@ const OrderPage = () => {
       })
   }
 
-  const deliverHandler = async () => {
+  const handleDeliver = async () => {
     await deliverOrder(orderId)
     refetch()
   }
@@ -261,7 +261,7 @@ const OrderPage = () => {
               )}
 
               {loadingDeliver && <LoaderComp />}
-
+              {/* admin an update delivered */}
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
@@ -270,7 +270,7 @@ const OrderPage = () => {
                     <Button
                       type='button'
                       className='btn btn-block'
-                      onClick={deliverHandler}
+                      onClick={handleDeliver}
                     >
                       Mark As Delivered
                     </Button>

@@ -22,6 +22,9 @@ import PlaceOrderPage from "./pages/PlaceOrderPage"
 import OrderPage from "./pages/OrderPage"
 import ProfilePage from "./pages/ProfilePage"
 import AdminRouteComp from "./components/AdminRouteComp"
+import OrderListPage from "./pages/admin/OrderListPage"
+import ProductListPage from "./pages/admin/ProductListPage"
+import ProductEditPage from "./pages/admin/ProductEditPage"
 
 //styles
 import "./assets/styles/bootstrap.custom.css"
@@ -29,7 +32,6 @@ import "./assets/styles/index.css"
 
 //paypal.
 import { PayPalScriptProvider } from "@paypal/react-paypal-js"
-import OrderListPage from "./pages/admin/OrderListPage"
 
 //declare the router.
 //createBrowserRouter==> enables us to access the react-router-dom
@@ -59,6 +61,8 @@ const router = createBrowserRouter(
       {/* Admin routes. */}
       <Route path='' element={<AdminRouteComp />}>
         <Route path='/admin/orderlist' element={<OrderListPage />} />
+        <Route path='/admin/productlist' element={<ProductListPage />} />
+        <Route path='/admin/product/:id/edit' element={<ProductEditPage />} />
       </Route>
     </Route>
   )
