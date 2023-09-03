@@ -1,6 +1,7 @@
 import { PRODUCT_URL } from "../constants"
 import { apiSlice } from "./apiSlice"
 
+//create the slice to get the products
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query({
@@ -9,7 +10,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         params: { keyword, pageNumber },
       }),
       keepUnusedDataFor: 5,
-      providesTags: ["Products"], //to avoid refresh
+      providesTags: ["Products"],
     }),
     getProductDetails: builder.query({
       query: productId => ({
@@ -22,7 +23,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCT_URL}`,
         method: "POST",
       }),
-      invalidatesTags: ["Product"], //prevents it from being cashed hence we have fresh data.
+      invalidatesTags: ["Product"],
     }),
     updateProduct: builder.mutation({
       query: data => ({

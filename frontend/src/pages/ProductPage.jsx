@@ -5,8 +5,9 @@ import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap"
 import RatingComp from "../components/RatingComp"
 import LoaderComp from "../components/LoaderComp"
 import MessagesComp from "../components/MessagesComp"
-import { useGetProductDetailsQuery } from "../redux/slices/productApiSlice"
+
 import { addToCart } from "../redux/slices/cartSlice"
+import { useGetProductDetailsQuery } from "../redux/api/productsApiSlice"
 
 const ProductPage = () => {
   //create the state to handle the quantity.

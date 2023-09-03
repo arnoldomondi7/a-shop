@@ -132,7 +132,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
+  //get all users from the db.
   const users = await User.find({})
+  //send res to the frontend.
   res.json(users)
 })
 
@@ -159,6 +161,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/:id
 // @access  Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
+  //get the user by the id
   const user = await User.findById(req.params.id).select("-password")
 
   if (user) {
@@ -168,6 +171,7 @@ const getUserById = asyncHandler(async (req, res) => {
     throw new Error("User not found")
   }
 })
+
 // @desc    Update user
 // @route   PUT /api/users/:id
 // @access  Private/Admin

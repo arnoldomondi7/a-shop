@@ -1,9 +1,9 @@
 import React from "react"
 import { Row, Col } from "react-bootstrap"
-import { useGetProductsQuery } from "../redux/slices/productApiSlice"
 import ProductComp from "../components/ProductComp"
 import LoaderComp from "../components/LoaderComp"
 import MessagesComp from "../components/MessagesComp"
+import { useGetProductsQuery } from "../redux/api/productsApiSlice"
 
 const HomePage = () => {
   //the data we rename as products since thats what we are mapping.
