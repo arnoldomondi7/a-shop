@@ -5,18 +5,21 @@ import Product from "../models/productModel.js"
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
+  //create the max pagination limit.
   const pageSize = process.env.PAGINATION_LIMIT
+  //target the page number in the url.
   const page = Number(req.query.pageNumber) || 1
-
+  //handle the search querry.
   const keyword = req.query.keyword
     ? {
         name: {
           $regex: req.query.keyword,
+          // case insensitive
           $options: "i",
         },
       }
     : {}
-
+  //get the total number of pages.
   const count = await Product.countDocuments({ ...keyword })
   const products = await Product.find({ ...keyword })
     .limit(pageSize)
@@ -113,25 +116,33 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @route   POST /api/products/:id/reviews
 // @access  Private
 const createProductReview = asyncHandler(async (req, res) => {
+  //get the rating and comment from the body.
+  //number rating and text coment.
   const { rating, comment } = req.body
 
   const product = await Product.findById(req.params.id)
-
+  //check if the product exist.
   if (product) {
+    //check if its already reviewed.
+    //to avoid same user giving 2 reviews.
+    //finding through reviews not product.
     const alreadyReviewed = product.reviews.find(
-      r => r.user.toString() === req.user._id.toString()
+      //matching the users objectID to the loged in user id
+      //if same find it.
+      review => review.user.toString() === req.user._id.toString()
     )
-
+    //if reviewd send err
     if (alreadyReviewed) {
       res.status(400)
       throw new Error("Product already reviewed")
     }
-
+    //if not take the comment
+    //create the review object.
     const review = {
       name: req.user.name,
       rating: Number(rating),
       comment,
-      user: req.user._id,
+      user: req.user._id, //comes from the request object.
     }
 
     product.reviews.push(review)

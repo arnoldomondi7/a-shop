@@ -25,6 +25,8 @@ import AdminRouteComp from "./components/AdminRouteComp"
 import OrderListPage from "./pages/admin/OrderListPage"
 import ProductListPage from "./pages/admin/ProductListPage"
 import ProductEditPage from "./pages/admin/ProductEditPage"
+import UserListPage from "./pages/admin/UserListPage"
+import UserEditPage from "./pages/admin/UserEditPage"
 
 //styles
 import "./assets/styles/bootstrap.custom.css"
@@ -44,6 +46,9 @@ const router = createBrowserRouter(
       {/* here you create other routes */}
       {/* index prevent showing many pages */}
       <Route index={true} path='/' element={<HomePage />} />
+      <Route path='/search/:keyword' element={<HomePage />} />
+      <Route path='/page/:pageNumber' element={<HomePage />} />
+      <Route path='/search/:keyword/page/:pageNumber' element={<HomePage />} />
       <Route path='/product/:id' element={<ProductPage />} />
       <Route path='/cart' element={<CartPage />} />
       <Route path='/login' element={<LoginPage />} />
@@ -62,7 +67,13 @@ const router = createBrowserRouter(
       <Route path='' element={<AdminRouteComp />}>
         <Route path='/admin/orderlist' element={<OrderListPage />} />
         <Route path='/admin/productlist' element={<ProductListPage />} />
+        <Route
+          path='/admin/productlist/:pageNumber'
+          element={<ProductListPage />}
+        />
         <Route path='/admin/product/:id/edit' element={<ProductEditPage />} />
+        <Route path='/admin/userlist' element={<UserListPage />} />
+        <Route path='/admin/user/:id/edit' element={<UserEditPage />} />
       </Route>
     </Route>
   )

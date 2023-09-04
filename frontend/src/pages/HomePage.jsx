@@ -4,36 +4,50 @@ import ProductComp from "../components/ProductComp"
 import LoaderComp from "../components/LoaderComp"
 import MessagesComp from "../components/MessagesComp"
 import { useGetProductsQuery } from "../redux/api/productsApiSlice"
+import ProductCarouselComp from "../components/ProductCarouselComp.jsx"
+import { Link, useParams } from "react-router-dom"
+import MetaComp from "../components/MetaComp.jsx"
+import PaginateComp from "../components/PaginateComp"
 
 const HomePage = () => {
-  //the data we rename as products since thats what we are mapping.
-  const { data: products, isLoading, error } = useGetProductsQuery()
+  const { pageNumber, keyword } = useParams()
 
-  const renderedItems = products?.map(product => {
-    return (
-      //the Row is used to divide the screen into 12 segments/pigments.
-      //the Col is used to occupy the subdivided screens.
-      //some might take a bigger or a smaller space.
-      // basically its responsive.
-      <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-        <ProductComp product={product} />
-      </Col>
-    )
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
   })
+
   return (
     <>
-      {/* handle the loading and the error cases. */}
+      {!keyword ? (
+        <ProductCarouselComp />
+      ) : (
+        <Link to='/' className='btn btn-light mb-4'>
+          Go Back
+        </Link>
+      )}
       {isLoading ? (
         <LoaderComp />
       ) : error ? (
         <MessagesComp variant='danger'>
-          {error?.data?.message || error?.error}
+          {error?.data?.message || error.error}
         </MessagesComp>
       ) : (
         <>
-          {" "}
-          <h1>Lattest Products.</h1>
-          <Row>{renderedItems}</Row>
+          <MetaComp />
+          <h1>Latest Products</h1>
+          <Row>
+            {data.products.map(product => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <ProductComp product={product} />
+              </Col>
+            ))}
+          </Row>
+          <PaginateComp
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </>
